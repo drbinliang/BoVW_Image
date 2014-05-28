@@ -18,7 +18,7 @@ def learnSvmModel(train_y, train_X, svm_c, svm_g):
     # learn and save svm model
     X = train_X_scaledArr.tolist()   
     problem = svm_problem(train_y, X)
-    paramStr = '-c ' + str(svm_c) + ' -g ' + str(svm_g)
+    paramStr = '-c ' + str(svm_c) + ' -g ' + str(svm_g) + ' -q'
     param = svm_parameter(paramStr)
     svmModel = svm_train(problem, param)
     

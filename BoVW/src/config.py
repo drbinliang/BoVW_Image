@@ -5,14 +5,16 @@ Created on 27/05/2014
 @email: bin.liang.ty@gmail.com
 '''
 
-imageDatasetFolder = 'C://Caltech 101//101_ObjectCategories//'
+imageDatasetDir = '.\\image_dataset'
+predctDir = '.\\pred'
 
 percentageTrainData = 0.7   # the percentage of training data
-numCategories = 4   # the number of categories
+numCategories = 10   # the number of categories
 
-codebookSize = 30 # the size of codebook
+codebookSize = 150 # the size of codebook
 
 is_cv = False
 
-svm_c = 2048.0
-svm_g = 0.0001220703125
+svm_c = 8.0
+svm_g = 0.125
+cv_acc = 75.9872

@@ -1,4 +1,4 @@
-### This is a simple framework of Bag-of-Visual-Words(BoVW) for image classification
+### A simple framework of Bag-of-Visual-Words(BoVW) for image classification
 
 #### REQUIREMENTS
 

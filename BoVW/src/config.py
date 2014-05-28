@@ -16,5 +16,5 @@ codebookSize = 150 # the size of codebook
 is_cv = False
 
 svm_c = 8.0
-svm_g = 0.125
-cv_acc = 75.9872
+svm_g = 0.0078125
+cv_acc = 76.4141

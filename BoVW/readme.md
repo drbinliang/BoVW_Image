@@ -8,6 +8,12 @@
 * scipy-0.14.0
 * OpenCV
 
+#### DESCRIPTION
+* Feature extraction: SIFT
+* Feature Encoding: Vector Quantization
+* Classification: RBF-Kernel SVM
+
+
 #### CONTACT INFORMATION
 * Website: http://csusap.csu.edu.au/~bliang03/
 * E-mail: bliang@csu.edu.au

@@ -75,11 +75,12 @@ def main():
     train_X = []
     
     for imageData in trainImageData:
-        imageData.encodeFeatures(codebook)
+        # Feature encoding, pooling, normalization
+        imageData.generateFinalFeatures(codebook)
         
         # Format train data
         train_y.append(imageData.classId)
-        train_X.append(imageData.encodedFeatures)
+        train_X.append(imageData.finalFeatures)
     
     # Cross validation    
     if config.is_cv:
@@ -95,11 +96,12 @@ def main():
     print "Classifying ..."
     numCorrect = 0
     for imageData in testImageData:
-        imageData.encodeFeatures(codebook)
+        # Feature encoding, pooling, normalization
+        imageData.generateFinalFeatures(codebook)
         
         # Format train data
         test_y = [imageData.classId]
-        test_X = [imageData.encodedFeatures]
+        test_X = [imageData.finalFeatures]
         
         p_label, _ = classifyData(test_y, test_X, svmModel, svmScaler)
         predClassId = int(p_label[0])

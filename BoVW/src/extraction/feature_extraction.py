@@ -28,12 +28,12 @@ def extractSiftFeatures(image):
 
 def encodeFeatures(siftFeatures, codebook):
     """ Encode features using codebook """
-    feature, _ = vq(siftFeatures, codebook)
+    index, _ = vq(siftFeatures, codebook)
+    row, _ = siftFeatures.shape
+    col = config.codebookSize
+    encodedFeatures = np.zeros((row, col))
+    
+    for i in xrange(len(index)):
+        encodedFeatures[i, index[i]] = 1
             
-    # normalization features
-    hist, _ = np.histogram(feature, bins = config.codebookSize)
-    normedFeatures = hist / float(hist.sum())
-    
-    encodedFeatures = normedFeatures
-    
     return encodedFeatures

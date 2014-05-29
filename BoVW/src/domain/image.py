@@ -6,6 +6,8 @@ Created on 28/05/2014
 '''
 import cv2
 from extraction.feature_extraction import extractSiftFeatures, encodeFeatures
+import numpy as np
+from numpy import linalg as LA
 
 class ImageData(object):
     
@@ -16,12 +18,29 @@ class ImageData(object):
         self.className = None
         self.classId = -1
         self.features = None
-        self.encodedFeatures = None
+        self._encodedFeatures = None
+        self._pooledFeatures = None
+        self.finalFeatures = None
         
     def extractFeatures(self):
         """ Extract features """
         self.features = extractSiftFeatures(self.image)
+     
+    def generateFinalFeatures(self, codebook):
+        """ Generate final features using codebook """
+        # 1. Feature encoding
+        self._encodedFeatures = encodeFeatures(self.features, codebook)
         
-    def encodeFeatures(self, codebook):
-        """ Get encoded features using codebook """
-        self.encodedFeatures = encodeFeatures(self.features, codebook)
+        # 2. Pooling (sum pooling)
+        self._pooledFeatures = np.sum(self._encodedFeatures, axis = 0)
+        
+        # 3. Normalization
+        self.finalFeatures = \
+            self._pooledFeatures / LA.norm(self._pooledFeatures, ord = 1)
+        
+        
+    def poolFeature(self):
+        """ feature pooling """
+        # sum pooling
+        self.pooledFeatures = np.average(self.encodedFeatures, axis = 0)
+        

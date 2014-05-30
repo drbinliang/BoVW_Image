@@ -28,6 +28,10 @@ class BagOfWords(object):
     def codebook(self):
         return self._codebook
     
+    @codebook.setter
+    def codebook(self, value):
+        self._codebook = value
+    
     def generateCodebook(self, features):
         """ Generate codebook using extracted features """
     

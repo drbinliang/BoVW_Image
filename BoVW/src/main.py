@@ -68,7 +68,11 @@ def main():
     ## Step.2 Codebook generation
     print "Codebook generation ..."
     bovw = BagOfWords()
-    bovw.generateCodebook(allFeatures)
+    if os.path.exists('codebook.npy'):
+        codebook = np.load('codebook.npy')
+        bovw.codebook = codebook
+    else:
+        bovw.generateCodebook(allFeatures)
     
     ## Step.3 Feature encoding for train data
     train_y = []

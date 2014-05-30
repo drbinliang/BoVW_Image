@@ -14,7 +14,8 @@
 
 #### DESCRIPTION
 * Feature extraction: SIFT
-* Feature Encoding: Vector Quantization
+* Feature Encoding: Vector Quantization, Hard assignment
+* Pooling and normalization: sum pooling, L1-norm
 * Classification: RBF-Kernel SVM
 
 

@@ -50,9 +50,9 @@ def main():
             trainImageData.append(imageData)
             
             if allFeatures.size == 0:
-                allFeatures = imageData._features
+                allFeatures = imageData.features
             else:
-                allFeatures = np.vstack((allFeatures, imageData._features))
+                allFeatures = np.vstack((allFeatures, imageData.features))
         
         # Test data loading
         for data in testData:

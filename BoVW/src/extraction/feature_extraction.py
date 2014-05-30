@@ -6,9 +6,6 @@ Created on 27/05/2014
 '''
 import cv2
 from utils import isGray
-from scipy.cluster.vq import vq
-import numpy as np
-import config
 
 def extractSiftFeatures(image):
     """ detect interest points in an image """
@@ -25,15 +22,3 @@ def extractSiftFeatures(image):
     kps, des = sift.detectAndCompute(image, None)
     
     return des
-
-def encodeFeatures(siftFeatures, codebook):
-    """ Encode features using codebook """
-    index, _ = vq(siftFeatures, codebook)
-    row, _ = siftFeatures.shape
-    col = config.codebookSize
-    encodedFeatures = np.zeros((row, col))
-    
-    for i in xrange(len(index)):
-        encodedFeatures[i, index[i]] = 1
-            
-    return encodedFeatures

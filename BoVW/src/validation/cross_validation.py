@@ -5,7 +5,7 @@ Created on 27/05/2014
 @email: bin.liang.ty@gmail.com
 '''
 from sklearn import preprocessing
-from utils import write2SVMFormat
+from recognition.svm_tool import SvmTool
 def crossValidate(train_y, train_X):
     """ Cross validate to get optimal parameters """
     # scale data
@@ -16,4 +16,5 @@ def crossValidate(train_y, train_X):
     # write to svm format file
     outputPath = '.\\cv'
     fileName = 'train_data'
-    write2SVMFormat(outputPath, fileName, X_scaled, train_y)
+    svmTool = SvmTool()
+    svmTool.write2SVMFormat(outputPath, fileName, X_scaled, train_y)

@@ -5,9 +5,8 @@ Created on 28/05/2014
 @email: bin.liang.ty@gmail.com
 '''
 import cv2
-from extraction.feature_extraction import extractSiftFeatures, encodeFeatures
+from extraction.feature_extraction import extractSiftFeatures
 import numpy as np
-from numpy import linalg as LA
 
 class ImageData(object):
     
@@ -17,26 +16,37 @@ class ImageData(object):
         
         self.className = None
         self.classId = -1
-        self.features = None
+        self._features = None
         self._encodedFeatures = None
         self._pooledFeatures = None
-        self.finalFeatures = None
+        self._finalFeatures = None
+    
+    
+    @property
+    def features(self):
+        return self._features
+    
+    
+    @property
+    def finalFeatures(self):
+        return self._finalFeatures
+    
         
     def extractFeatures(self):
-        """ Extract features """
-        self.features = extractSiftFeatures(self.image)
+        """ Extract _features """
+        self._features = extractSiftFeatures(self.image)
      
-    def generateFinalFeatures(self, codebook):
-        """ Generate final features using codebook """
-        # 1. Feature encoding
-        self._encodedFeatures = encodeFeatures(self.features, codebook)
+     
+    def generateFinalFeatures(self, bovw):
+        """ Generate final _features using bag of visual words (bovw) """
+        # 1. Do feature encoding
+        self._encodedFeatures = bovw.doFeatureEncoding(self._features)
         
-        # 2. Pooling (sum pooling)
-        self._pooledFeatures = np.sum(self._encodedFeatures, axis = 0)
+        # 2. Do feature pooling
+        self._pooledFeatures = bovw.doFeaturePooling(self._encodedFeatures)
         
-        # 3. Normalization
-        self.finalFeatures = \
-            self._pooledFeatures / LA.norm(self._pooledFeatures, ord = 1)
+        # 3. Do normalization
+        self._finalFeatures = bovw.doFeatureNormalization(self._pooledFeatures)
         
         
     def poolFeature(self):

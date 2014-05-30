@@ -106,7 +106,7 @@ def main():
         
         # Format train data
         test_y = [imageData.classId]
-        test_X = [imageData._finalFeatures]
+        test_X = [imageData.finalFeatures]
         
         p_label, _ = svmTool.doPredication(test_y, test_X)
         predClassId = int(p_label[0])

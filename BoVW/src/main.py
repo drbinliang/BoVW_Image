@@ -93,9 +93,9 @@ def main():
     
     ## Step.4 Classification
     # Learning using SVM
-    svmTool = SvmTool(train_y, train_X)
+    svmTool = SvmTool()
     print "Model learning ..."
-    svmTool.learnModel()
+    svmTool.learnModel(train_y, train_X)
     
     # Feature encoding for test data and classify data using learned model
     print "Classifying ..."

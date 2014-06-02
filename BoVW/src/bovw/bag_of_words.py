@@ -8,6 +8,7 @@ from scipy.cluster.vq import whiten, kmeans2, ClusterError, vq
 import config
 import numpy as np
 from numpy import linalg as LA
+from sklearn.cluster import MiniBatchKMeans
 
 class BagOfWords(object):
     
@@ -35,25 +36,31 @@ class BagOfWords(object):
     def generateCodebook(self, features):
         """ Generate codebook using extracted features """
     
-        whitenedFeatures = whiten(features)
-        run = True
+        
         codebook = None
         
         if self._codebookGenerateMethod == 'k-means':
-            # Codebook generation using k-means
-            while run:
-                try:
-                    # Set missing = 'raise' to raise exception 
-                    # when one of the clusters is empty
-                    codebook, _ = kmeans2(whitenedFeatures, 
-                                          self._codebookSize, 
-                                          missing = 'raise')
-                    
-                    # No empty clusters
-                    run = False
-                except ClusterError:
-                    # If one of the clusters is empty, re-run k-means
-                    run = True
+#             # Codebook generation using scipy k-means
+#             while run:
+#                 try:
+#                     # Set missing = 'raise' to raise exception 
+#                     # when one of the clusters is empty
+#                     whitenedFeatures = whiten(features)
+#                     codebook, _ = kmeans2(whitenedFeatures, 
+#                                           self._codebookSize, 
+#                                           missing = 'raise')
+#                     
+#                     # No empty clusters
+#                     run = False
+#                 except ClusterError:
+#                     # If one of the clusters is empty, re-run k-means
+#                     run = True
+            
+            # Codebook generation using sklearn k-means
+            whitenedFeatures = whiten(features)
+            kmeans = MiniBatchKMeans(n_clusters = config.codebookSize)
+            kmeans.fit(whitenedFeatures)
+            codebook = kmeans.cluster_centers_
         else:
             pass
         
@@ -63,10 +70,11 @@ class BagOfWords(object):
     def doFeatureEncoding(self, features):
         """ do feature encoding to original features"""
         encodedFeatures = None
+        whitenFeatures = whiten(features)
         
         if self._featureEncodingMethod == 'hard-assignment':
             # Hard assignment
-            index, _ = vq(features, self._codebook)
+            index, _ = vq(whitenFeatures, self._codebook)
             row, _ = features.shape
             col = config.codebookSize
             encodedFeatures = np.zeros((row, col))

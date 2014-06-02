@@ -12,24 +12,24 @@ from svmutil import svm_train, svm_predict
 
 class SvmTool(object):
     
-    def __init__(self, train_y, train_X, kernel = 'RBF'):
+    def __init__(self, kernel = 'RBF'):
         self._kernel = kernel
         self._scaler = None
-        self.train_X = train_X
-        self.train_y = train_y
+        self.train_X = None
+        self.train_y = None
         self._param_c = config.svm_c
         self._param_g = config.svm_g
         self._model = None
     
     
-    def learnModel(self):
+    def learnModel(self, train_y, train_X):
         # scale train data
         svmScaler = preprocessing.MinMaxScaler(feature_range = (-1, 1))
-        train_X_scaledArr = svmScaler.fit_transform(self.train_X)
+        train_X_scaledArr = svmScaler.fit_transform(train_X)
         
         # learn and save svm model
         X = train_X_scaledArr.tolist()   
-        problem = svm_problem(self.train_y, X)
+        problem = svm_problem(train_y, X)
         paramStr = '-c ' + str(self._param_c) + ' -g ' + str(self._param_g) + ' -q'
         param = svm_parameter(paramStr)
         
